@@ -81,7 +81,15 @@ module testharness import ${cfg["cluster"]["name"]}_pkg::*; (
   // Wide port into simulation memory.
   tb_memory_axi #(
     .AxiAddrWidth ( AddrWidth       ),
+% if 'use_ax_bw_converter' in cfg['cluster']:
+  % if cfg['cluster']['use_ax_bw_converter']:
+    .AxiDataWidth ( LowBWWideDataWidth ),
+  % else:
     .AxiDataWidth ( WideDataWidth   ),
+  % endif
+% else:
+    .AxiDataWidth ( WideDataWidth   ),
+% endif
     .AxiIdWidth   ( WideIdWidthOut  ),
     .AxiUserWidth ( WideUserWidth   ),
 % if 'use_ax_bw_converter' in cfg['cluster']:
