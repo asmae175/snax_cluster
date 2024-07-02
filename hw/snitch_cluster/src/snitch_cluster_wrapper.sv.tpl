@@ -352,7 +352,6 @@ module ${cfg['name']}_wrapper (
   // Convert input port
   // From AXI port to cluster 
   axi_dw_converter #(
-    .AxiMaxReads         ( ${cfg['wide_trans']}                       ), // Number of outstanding reads
     .AxiSlvPortDataWidth ( ${cfg['pkg_name']}::LowBWWideDataWidth     ), // Data width of the slv port
     .AxiMstPortDataWidth ( ${cfg['pkg_name']}::WideDataWidth          ), // Data width of the mst port
     .AxiAddrWidth        ( ${cfg['pkg_name']}::AddrWidth              ), // Address width
@@ -382,7 +381,6 @@ module ${cfg['name']}_wrapper (
   // Convert output ports
   // From cluster to AXI port
   axi_dw_converter #(
-    .AxiMaxReads         ( ${cfg['wide_trans']}                         ), // Number of outstanding reads
     .AxiSlvPortDataWidth ( ${cfg['pkg_name']}::WideDataWidth            ), // Data width of the slv port
     .AxiMstPortDataWidth ( ${cfg['pkg_name']}::LowBWWideDataWidth       ), // Data width of the mst port
     .AxiAddrWidth        ( ${cfg['pkg_name']}::AddrWidth                ), // Address width
@@ -408,6 +406,7 @@ module ${cfg['name']}_wrapper (
     .mst_req_o           ( wide_out_req_o  ),
     .mst_resp_i          ( wide_out_resp_i )
   );
+  
 % endif
 
 <%
