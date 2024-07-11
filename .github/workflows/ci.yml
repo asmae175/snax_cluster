@@ -276,7 +276,7 @@ jobs:
       - name: Build Hardware
         run: |
           make CFG_OVERRIDE=cfg/snax-wide-gemm-data-reshuffler.hjson \
-          -C target/snitch_cluster bin/snitch_cluster.vlt -j$(nproc)
+          -C target/snitch_cluster bin/snitch_cluster.vlt
 
   sw-snax-gemmX-cluster-vlt-generic:
     name: Simulate SW on GEMMX w/ Verilator (Generic LLVM)
