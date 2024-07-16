@@ -15,14 +15,14 @@ else
 RUNTIME = runtime/rtl
 endif
 
-SUBDIRS += math $(RUNTIME) snax/mac snax/gemm snax/streamer-gemm snax/streamer-simd snax/data-reshuffler snax/streamer-gemm-conv snax/streamer-gemm-conv-simd  apps tests
+SUBDIRS += math $(RUNTIME) snax/mac snax/gemm snax/streamer-gemm snax/streamer-simd snax/data-reshuffler snax/streamer-gemm-add-c snax/streamer-gemm-conv snax/streamer-gemm-conv-simd  apps tests
 
 .PHONY: all $(SUBDIRS)
 
 all: $(SUBDIRS)
 
 # Explicit dependency of apps on runtime
-apps: math $(RUNTIME) snax/mac snax/gemm snax/streamer-gemm snax/streamer-simd snax/data-reshuffler snax/streamer-gemm-conv snax/streamer-gemm-conv-simd  
+apps: math $(RUNTIME) snax/mac snax/gemm snax/streamer-gemm snax/streamer-simd snax/data-reshuffler snax/streamer-gemm-add-c snax/streamer-gemm-conv snax/streamer-gemm-conv-simd  
 	$(MAKE) -C $@ TARGET=$(TARGET)
 
 # Explicit dependency of tests on runtime
