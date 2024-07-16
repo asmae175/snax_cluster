@@ -79,7 +79,6 @@ def conv2d(input_data, kernel, stride=(1, 1), padding=(0, 0), mode="NHWC"):
         output_data = np.zeros(
             (batch_size, Cout8, out_height, out_width // 8, 8, 8), np.int32
         )
-        # output_data = np.zeros((batch_size, Cout8, out_height, out_width, 8), np.int32)
 
         # Perform the convolution operation
         for b in range(batch_size):
@@ -107,26 +106,6 @@ def conv2d(input_data, kernel, stride=(1, 1), padding=(0, 0), mode="NHWC"):
                                 output_data[b, oc, oh, ow, ow8, oc8] = np.sum(
                                     input_region * conv_kernel
                                 )
-                        # for ow in range(out_width):
-                        #         # Calculate the input region
-                        #         iw_start = ow * stride_w
-                        #         iw_end = iw_start + kernel_width
-
-                        #         ih_start = oh * stride_h
-                        #         ih_end = ih_start + kernel_height
-
-                        #         # Slice to extract the input region
-                        #         input_region = input_data_padded[
-                        #             b, :, ih_start:ih_end, iw_start:iw_end, :
-                        #         ]
-
-                        #         # Slice to extract the corresponding convolution kernel
-                        #         conv_kernel = kernel[oc, :, :, :, oc8, :]
-
-                        #         # Perform the convolution calculation
-                        #         output_data[b, oc, oh, ow, oc8] = np.sum(
-                        #             input_region * conv_kernel
-                        #         )
 
     return output_data
 

@@ -354,10 +354,6 @@ def emit_gemm_data(**kwargs):
     # output in NHWC format
     direct_conv2d_res = direct_conv2d_res.reshape(-1)
 
-    # direct_conv2d_res = data_reshuffler_golden_model(
-    #     N, M, 8, 8, 8, 8 * 8 * N, 1, 8 * N, direct_conv2d_res, 1
-    # )
-
     # Writing testing data and golden data into data.h
     # implicit im2col matrix and kernel, store original input data and kernel
     data_str += [format_vector_definition("int8_t", "A", input_padding.reshape(-1))]
