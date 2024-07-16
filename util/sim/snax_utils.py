@@ -24,11 +24,15 @@ def conv2d(input_data, kernel, stride=(1, 1), padding=(0, 0), mode="NHWC"):
 
         # Add padding
         input_data_padded = np.pad(
-            input_data, ((0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)), mode="constant"
+            input_data,
+            ((0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)),
+            mode="constant",
         )
 
         # Initialize the output feature map
-        output_data = np.zeros((batch_size, out_height, out_width, out_channels), np.int32)
+        output_data = np.zeros(
+            (batch_size, out_height, out_width, out_channels), np.int32
+        )
 
         # Perform the convolution operation
         for b in range(batch_size):
@@ -66,12 +70,15 @@ def conv2d(input_data, kernel, stride=(1, 1), padding=(0, 0), mode="NHWC"):
 
         # Add padding
         input_data_padded = np.pad(
-            input_data, ((0, 0), (0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)),
-            mode="constant"
+            input_data,
+            ((0, 0), (0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)),
+            mode="constant",
         )
 
         # Initialize the output feature map
-        output_data = np.zeros((batch_size, Cout8, out_height, out_width // 8, 8, 8), np.int32)
+        output_data = np.zeros(
+            (batch_size, Cout8, out_height, out_width // 8, 8, 8), np.int32
+        )
         # output_data = np.zeros((batch_size, Cout8, out_height, out_width, 8), np.int32)
 
         # Perform the convolution operation
@@ -82,7 +89,7 @@ def conv2d(input_data, kernel, stride=(1, 1), padding=(0, 0), mode="NHWC"):
                         for ow in range(out_width // 8):
                             for ow8 in range(8):
                                 # Calculate the input region
-                                iw_start = (ow * 8 + ow8)* stride_w
+                                iw_start = (ow * 8 + ow8) * stride_w
                                 iw_end = iw_start + kernel_width
 
                                 ih_start = oh * stride_h

@@ -43,9 +43,22 @@ MAX = 127
 def emit_gemm_data(**kwargs):
     Cin = kwargs["Cin"]
     Cout = kwargs["Cout"]
-    if kwargs['ifC8HW8datalayout'] is True:
-        Nbatch, Cin8, H, W, _ = (kwargs["Nbatch"], kwargs["Cin"] // 8, kwargs["H"], kwargs["W"], 8)
-        Cout8, Cin8, Kh, Kw, _, _ = (kwargs["Cout"] // 8, kwargs["Cin"] // 8, kwargs["Kh"], kwargs["Kw"], 8, 8)
+    if kwargs["ifC8HW8datalayout"] is True:
+        Nbatch, Cin8, H, W, _ = (
+            kwargs["Nbatch"],
+            kwargs["Cin"] // 8,
+            kwargs["H"],
+            kwargs["W"],
+            8,
+        )
+        Cout8, Cin8, Kh, Kw, _, _ = (
+            kwargs["Cout"] // 8,
+            kwargs["Cin"] // 8,
+            kwargs["Kh"],
+            kwargs["Kw"],
+            8,
+            8,
+        )
 
         # test data generation
         input_data = np.random.randint(-10, 10, size=(Nbatch, Cin8, H, W, 8))
@@ -54,7 +67,7 @@ def emit_gemm_data(**kwargs):
         # conv2d settings
         Nbatch, H, W, Cin = (kwargs["Nbatch"], kwargs["H"], kwargs["W"], kwargs["Cin"])
         Cout, Kh, Kw, Cin = (kwargs["Cout"], kwargs["Kh"], kwargs["Kw"], kwargs["Cin"])
-    
+
         # test data generation
         input_data = np.random.randint(-10, 10, size=(Nbatch, H, W, Cin))
         kernel = np.random.randint(-10, 10, size=(Cout, Kh, Kw, Cin))
@@ -68,13 +81,17 @@ def emit_gemm_data(**kwargs):
 
     # Padding the input data
 
-    if kwargs['ifC8HW8datalayout'] is True:
+    if kwargs["ifC8HW8datalayout"] is True:
         input_padding = np.pad(
-            input_data, ((0, 0), (0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)), mode="constant"
+            input_data,
+            ((0, 0), (0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)),
+            mode="constant",
         )
     else:
         input_padding = np.pad(
-            input_data, ((0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)), mode="constant"
+            input_data,
+            ((0, 0), (pad_h, pad_h), (pad_w, pad_w), (0, 0)),
+            mode="constant",
         )
 
     # Calculate the size of the output feature map
@@ -122,7 +139,7 @@ def emit_gemm_data(**kwargs):
 
     # for streamer cfg
     # streamer setting for data mover A
-    if kwargs['ifC8HW8datalayout'] is True:
+    if kwargs["ifC8HW8datalayout"] is True:
         # NC8HW8
         Aslstride0 = 1
         Aslstride1 = 8
@@ -201,8 +218,7 @@ def emit_gemm_data(**kwargs):
         format_scalar_definition("int32_t", "Atlstride6", Atlstride6),
     ]
 
-
-    if kwargs['ifC8HW8datalayout'] is True:
+    if kwargs["ifC8HW8datalayout"] is True:
         # Cout8Cin8FyFx88
         # streamer setting for data mover B
         Bslstride0 = 1
@@ -260,7 +276,7 @@ def emit_gemm_data(**kwargs):
 
     # streamer setting for data mover C
     # C is int32_t so the stride is 4 times of the int8_t
-    if kwargs['ifC8HW8datalayout'] is True:
+    if kwargs["ifC8HW8datalayout"] is True:
         # NHWC
         Cslstride0 = 4
         Cslstride1 = 32
@@ -325,11 +341,15 @@ def emit_gemm_data(**kwargs):
     ]
 
     # direct conv2d
-    
-    if kwargs['ifC8HW8datalayout'] is True:
-        direct_conv2d_res = conv2d(input_data, kernel, stride=stride, padding=padding, mode="C8HW8")
+
+    if kwargs["ifC8HW8datalayout"] is True:
+        direct_conv2d_res = conv2d(
+            input_data, kernel, stride=stride, padding=padding, mode="C8HW8"
+        )
     else:
-        direct_conv2d_res = conv2d(input_data, kernel, stride=stride, padding=padding, mode="NHWC")
+        direct_conv2d_res = conv2d(
+            input_data, kernel, stride=stride, padding=padding, mode="NHWC"
+        )
 
     # output in NHWC format
     direct_conv2d_res = direct_conv2d_res.reshape(-1)
