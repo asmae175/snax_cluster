@@ -26,8 +26,8 @@ apps: math $(RUNTIME) snax/mac snax/gemm snax/streamer-gemm snax/streamer-simd s
 	$(MAKE) -C $@ TARGET=$(TARGET)
 
 # Explicit dependency of tests on runtime
-tests: math $(RUNTIME) snax/mac snax/gemm snax/streamer-gemm snax/streamer-simd snax/data-reshuffler snax/streamer-gemm-conv snax/streamer-gemm-conv-simd  
+tests: math $(RUNTIME) snax/mac snax/gemm snax/streamer-gemm snax/streamer-simd snax/data-reshuffler snax/streamer-gemm-add-c snax/streamer-gemm-conv snax/streamer-gemm-conv-simd  
 	$(MAKE) -C $@ $(TARGET)
 
-runtime/rtl runtime/banshee runtime/rtl-generic math snax/mac snax/gemm snax/streamer-gemm snax/streamer-simd snax/data-reshuffler snax/streamer-gemm-conv snax/streamer-gemm-conv-simd  :
+runtime/rtl runtime/banshee runtime/rtl-generic math snax/mac snax/gemm snax/streamer-gemm snax/streamer-simd snax/data-reshuffler snax/streamer-gemm-add-c snax/streamer-gemm-conv snax/streamer-gemm-conv-simd  :
 	$(MAKE) -C $@ $(TARGET)
