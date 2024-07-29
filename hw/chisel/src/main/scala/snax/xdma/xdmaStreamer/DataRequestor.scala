@@ -100,7 +100,7 @@ class DataRequestor(
 
   // If is reader, the mask is always 1 because tcdm ignore it;
   // Else, the mask is connected to the tcdm requestor to indicate which byte is valid
-    io.out.tcdm_req.bits.strb := io.in.strb
+  io.out.tcdm_req.bits.strb := io.in.strb
 
   // If is writer, the data port is ready to receive data when there is a valid address
   if (!isReader) {
@@ -164,7 +164,7 @@ class DataRequestors(
     if (!isReader) module.io.in.data.get <> io.in.data.get(i)
 
     // Connect the strobe signal
-      module.io.in.strb := io.in.strb
+    module.io.in.strb := io.in.strb
 
     // Connect the output to the tcdm request
     io.out.tcdm_req(i) <> module.io.out.tcdm_req
