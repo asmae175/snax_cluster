@@ -248,7 +248,7 @@ object xdmaTopGen extends App {
 #define XDMA_DST_DIM ${writerparam.agu_param.dimension}
 #define XDMA_DST_BOUND_PTR XDMA_DST_ADDR_PTR_MSB + 1
 #define XDMA_DST_STRIDE_PTR XDMA_DST_BOUND_PTR + XDMA_DST_DIM
-#define XDMA_DST_STRB_PTR XDMA_DST_BOUND_PTR + XDMA_DST_DIM
+#define XDMA_DST_STRB_PTR XDMA_DST_STRIDE_PTR + XDMA_DST_DIM
 #define XDMA_DST_EXT_CSR_PTR XDMA_DST_STRB_PTR + 1
 #define XDMA_DST_EXT_NUM ${writerextensionparam.length}
 #define XDMA_DST_EXT_CSR_NUM ${writerextensionparam
