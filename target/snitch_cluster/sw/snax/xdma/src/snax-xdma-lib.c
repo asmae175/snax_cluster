@@ -19,7 +19,7 @@
 int32_t xdma_memcpy_nd(uint8_t* src, uint8_t* dst, uint32_t dim_src,
                        uint32_t dim_dst, uint32_t* stride_src,
                        uint32_t* stride_dst, uint32_t* bound_src,
-                       uint32_t* bound_dst) {
+                       uint32_t* bound_dst, uint32_t byte_strobe) {
     csrw_ss(XDMA_SRC_ADDR_PTR_LSB, (uint32_t)(uint64_t)src);
     csrw_ss(XDMA_SRC_ADDR_PTR_MSB, (uint32_t)((uint64_t)src >> 32));
 
@@ -85,6 +85,8 @@ int32_t xdma_memcpy_nd(uint8_t* src, uint8_t* dst, uint32_t dim_src,
         csrw_ss(XDMA_DST_BOUND_PTR + i, 1);
         csrw_ss(XDMA_DST_STRIDE_PTR + i, 0);
     }
+    // Byte strobe at dst
+    csrw_ss(XDMA_DST_STRB_PTR, byte_strobe);
     return 0;
 }
 
@@ -95,7 +97,7 @@ int32_t xdma_memcpy_1d(uint8_t* src, uint8_t* dst, uint32_t size) {
     }
     uint32_t stride[2] = {XDMA_WIDTH / XDMA_SPATIAL_CHAN, XDMA_WIDTH};
     uint32_t bound[2] = {XDMA_SPATIAL_CHAN, size / XDMA_WIDTH};
-    return xdma_memcpy_nd(src, dst, 2, 2, stride, stride, bound, bound);
+    return xdma_memcpy_nd(src, dst, 2, 2, stride, stride, bound, bound, 0xff);
 }
 
 // xdma extension interface
